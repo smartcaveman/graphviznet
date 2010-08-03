@@ -1,0 +1,42 @@
+﻿<Window
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="clr-namespace:GraphViewer" xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" x:Class="GraphViewer.Window1"
+    Title="Window1" Height="300" Width="300" mc:Ignorable="d">
+	<Window.Resources>
+		<Style x:Key="{x:Type local:NodePresenter}" TargetType="{x:Type local:NodePresenter}">
+			<Setter Property="Template">
+				<Setter.Value>
+					<ControlTemplate TargetType="{x:Type local:NodePresenter}">
+						<Grid Width="Auto" Height="Auto" DataContext="{TemplateBinding Node}">
+							<Rectangle Width="30" Height="30" Fill="#FF984848" MinHeight="20" MinWidth="20"/>
+							<TextBlock  Text="{Binding Name}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+						</Grid>
+					</ControlTemplate>
+				</Setter.Value>
+			</Setter>
+		</Style>
+		<Style x:Key="{x:Type local:EdgePresenter}" TargetType="{x:Type local:EdgePresenter}">
+			<Setter Property="Template">
+				<Setter.Value>
+					<ControlTemplate TargetType="{x:Type local:EdgePresenter}">
+						<Path Data="{TemplateBinding EdgeGeometry}" Stroke="Black" StrokeThickness="2"/>
+					</ControlTemplate>
+				</Setter.Value>
+			</Setter>
+		</Style>
+	</Window.Resources>
+    <Grid>
+        
+    	<ScrollViewer>
+            <local:GraphView x:Name="view">
+                <local:GraphView.RenderTransform>
+                    <ScaleTransform ScaleX="0.8" ScaleY="0.8"/>
+
+                </local:GraphView.RenderTransform>
+            </local:GraphView>
+        </ScrollViewer>
+    	<Button x:Name="btnDump" HorizontalAlignment="Left" Margin="8,8,0,0" VerticalAlignment="Top" Width="59" Height="23" Content="Dump"/>
+        
+    </Grid>
+</Window>
