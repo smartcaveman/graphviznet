@@ -8,13 +8,14 @@ namespace GraphVizNet
 {
     public class VizEdge : VizBaseEntity
     {
-
-
         public VizEdge()
         {
             this.Id = Guid.NewGuid().ToString();
         }
 
+        /// <summary>
+        /// Edge id, required, must be unique
+        /// </summary>
         public string Id
         {
             get
@@ -50,6 +51,9 @@ namespace GraphVizNet
         }
 
         List<Point> points = new List<Point>();
+        /// <summary>
+        /// Data for arrow path, from graphviz
+        /// </summary>
         public IList<Point> Points
         {
             get
@@ -69,12 +73,18 @@ namespace GraphVizNet
             base.OnSetAttribute(name, value);
         }
 
+        /// <summary>
+        /// Arrow start point
+        /// </summary>
         public Point? StartPoint
         {
             get;
             set;
         }
 
+        /// <summary>
+        /// Arrow end point
+        /// </summary>
         public Point? EndPoint
         {
             get;
@@ -109,6 +119,9 @@ namespace GraphVizNet
             }
         }
 
+        /// <summary>
+        /// Arrow direction
+        /// </summary>
         public DirectionEnum Direction
         {
             get

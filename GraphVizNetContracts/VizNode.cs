@@ -16,19 +16,25 @@ namespace GraphVizNet
             this.SerializeAttributes(w);
         }
 
+        /// <summary>
+        /// Node name
+        /// </summary>
         public string Name
         {
             get;
             set;
         }
 
+        /// <summary>
+        /// Node center position
+        /// </summary>
         public Point Pos
         {
             get;
             set;
         }
 
-        public void SetPos(string pos)
+        private void SetPos(string pos)
         {
             if (!String.IsNullOrEmpty(pos))
             {
@@ -53,6 +59,9 @@ namespace GraphVizNet
 
         private Size _size;
 
+        /// <summary>
+        /// The size of the node, we assume a box shape
+        /// </summary>
         public Size Size
         {
             get

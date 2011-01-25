@@ -24,7 +24,7 @@ namespace GraphViewerDemo
         public Window1()
         {
             this.DataContext = this.Controller;
-            this.Controller.Source = "123451abc";
+            this.Controller.Source = "123451abc5";
             this.Controller.RefreshCommand.Execute();
             InitializeComponent();
         }

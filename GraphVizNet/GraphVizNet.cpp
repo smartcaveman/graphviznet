@@ -97,14 +97,14 @@ namespace GraphVizNet {
 		}
 
 		graph_t *g;
-		if(!String::IsNullOrEmpty(inGraph->Name))
-		{
-			char* graphName = (char*)context->marshal_as<const char*>(inGraph->Name);
-			g = agopen(graphName, type);
-		}
-		else {
+		//if(!String::IsNullOrEmpty(inGraph->Name))
+		//{
+		//	char* graphName = (char*)context->marshal_as<const char*>(inGraph->Name);
+		//	g = agopen(graphName, type);
+		//}
+		//else {
 			g = agopen("g", type);
-		}
+		//}
 
 		SetAttributes(g, inGraph);
 		return g;

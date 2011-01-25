@@ -10,11 +10,16 @@ namespace GraphVizNet
 {
     public static class Extensions
     {
+        /// <summary>
+        /// Convert graphviz layout engine data to to WPF independent units
+        /// and WPF coordinate system with (0,0) in upper left corner
+        /// </summary>
+        /// <param name="graph"></param>
         public static void ConvertToLeftUpperCorner(this VizGraph graph)
         {
             foreach (var node in graph.Nodes)
             {
-                node.Pos = graph.ConvertPointToUpperLeftCorver(node.Pos);// new Point(node.Pos.X, graph.BoundingBox.Height - node.Pos.Y);
+                node.Pos = graph.ConvertPointToUpperLeftCorver(node.Pos);
             }
             foreach (var edge in graph.Edges)
             {
@@ -57,6 +62,11 @@ namespace GraphVizNet
             return p;
         }
 
+        /// <summary>
+        /// Convert WPF independent unit to inches
+        /// </summary>
+        /// <param name="n"></param>
+        /// <returns></returns>
         public static double IndUnitToInches(this double n)
         {
             return n * VizGraph.IndUnitToInches;

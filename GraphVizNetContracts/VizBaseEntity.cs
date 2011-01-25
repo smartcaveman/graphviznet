@@ -27,6 +27,9 @@ namespace GraphVizNet
 
         private StringDictionary attributes = new StringDictionary();
 
+        /// <summary>
+        /// Attributes from graphviz layout engine
+        /// </summary>
         protected StringDictionary Attributes
         {
             get
@@ -38,7 +41,7 @@ namespace GraphVizNet
         private StringDictionary sourceAttributes = new StringDictionary();
 
         /// <summary>
-        /// Source attributes for graphviz entity
+        /// Source attributes for graphviz layout engine
         /// </summary>
         public StringDictionary SourceAttributes
         {
@@ -48,6 +51,11 @@ namespace GraphVizNet
             }
         }
 
+        /// <summary>
+        /// For internal use, use SourceAttributes
+        /// </summary>
+        /// <param name="name"></param>
+        /// <param name="value"></param>
         public void SetAttribute(string name, string value)
         {
             attributes[name] = value;
@@ -55,7 +63,7 @@ namespace GraphVizNet
         }
 
         /// <summary>
-        /// Override this to get attributes after graphviz processing
+        /// Override this to get attributes from graphviz layout engine
         /// </summary>
         /// <param name="name"></param>
         /// <param name="value"></param>
