@@ -18,8 +18,8 @@ namespace GraphVizNet
         {
             w.Write("[");
 
-            var r = from k in SourceAttributes.Keys.Cast<string>()
-                    select k + "=" + SourceAttributes[k];
+            var r = from k in attributes.Keys.Cast<string>()
+                    select k + "=\"" + SourceAttributes[k] + "\"";
             w.Write(String.Join(",", r.ToArray()));
 
             w.Write("]");

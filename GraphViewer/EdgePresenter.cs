@@ -11,6 +11,33 @@ namespace GraphViewer
 {
     public class EdgePresenter : Control
     {
+        static EdgePresenter()
+        {
+            DefaultStyleKeyProperty.OverrideMetadata(typeof(EdgePresenter),
+                new FrameworkPropertyMetadata(typeof(EdgePresenter)));
+        }
+
+        public EdgePresenter(NodePresenter parent, NodePresenter child, VizEdge edge)
+        {
+            Parent = parent;
+            Child = child;
+            Edge = edge;
+        }
+
+        public static readonly DependencyProperty ParentProperty = DependencyProperty.Register("Parent", typeof(NodePresenter), typeof(EdgePresenter), new FrameworkPropertyMetadata());
+        public NodePresenter Parent
+        {
+            get { return (NodePresenter)GetValue(ParentProperty); }
+            set { SetValue(ParentProperty, value); }
+        }
+
+        public static readonly DependencyProperty ChildProperty = DependencyProperty.Register("Child", typeof(NodePresenter), typeof(EdgePresenter), new FrameworkPropertyMetadata());
+        public NodePresenter Child
+        {
+            get { return (NodePresenter)GetValue(ChildProperty); }
+            set { SetValue(ChildProperty, value); }
+        }  
+
         public static readonly DependencyProperty EdgeProperty = DependencyProperty.Register("Edge", typeof(VizEdge), typeof(EdgePresenter), new UIPropertyMetadata());
         public VizEdge Edge
         {

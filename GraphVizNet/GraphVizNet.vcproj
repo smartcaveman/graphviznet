@@ -45,9 +45,6 @@
 				PreprocessorDefinitions="WIN32;_DEBUG"
 				RuntimeLibrary="3"
 				UsePrecompiledHeader="2"
-				ObjectFile="..\bin\Debug\"
-				ProgramDataBaseFileName="..\bin\Debug\vc90.pdb"
-				XMLDocumentationFileName="..\bin\Debug\"
 				WarningLevel="3"
 				DebugInformationFormat="3"
 			/>
@@ -120,9 +117,6 @@
 				PreprocessorDefinitions="WIN32;NDEBUG"
 				RuntimeLibrary="2"
 				UsePrecompiledHeader="2"
-				ObjectFile="..\bin\Release\"
-				ProgramDataBaseFileName="..\bin\Release\vc90.pdb"
-				XMLDocumentationFileName="..\bin\Release\"
 				WarningLevel="3"
 				DebugInformationFormat="3"
 			/>
@@ -185,7 +179,7 @@
 		<ProjectReference
 			ReferencedProjectIdentifier="{12A038D4-6E93-4BED-A284-F4D35D79EFBE}"
 			CopyLocal="false"
-			RelativePathToProject="..\GraphVizNetContracts\GraphVizNetContracts.csproj"
+			RelativePathToProject="..\CommonObjects\GraphVizNetContracts\GraphVizNetContracts.csproj"
 		/>
 		<AssemblyReference
 			RelativePath="WindowsBase.dll"

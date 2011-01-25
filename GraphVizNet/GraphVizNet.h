@@ -14,6 +14,8 @@ namespace GraphVizNet {
 	public ref class GraphEngine
 	{
 	private:
+		static System::Object^ lockObject;
+
 		static GVC_t *gvc;
 		marshal_context ^ context;
 
@@ -34,6 +36,7 @@ namespace GraphVizNet {
 
 	public:
 
+		static GraphEngine(void);
 		GraphEngine(void);
 
 		void GraphEngine::DotLayout(VizGraph^ g);

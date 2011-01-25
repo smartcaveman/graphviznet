@@ -8,12 +8,31 @@ namespace GraphVizNet
 {
     public class VizEdge : VizBaseEntity
     {
+
+
+        public VizEdge()
+        {
+            this.Id = Guid.NewGuid().ToString();
+        }
+
+        public string Id
+        {
+            get
+            {
+                return SourceAttributes["id"];
+            }
+            set
+            {
+                SourceAttributes["id"] = value;
+            }
+        }
+
         public override void Serialize(System.IO.StreamWriter w)
         {
             w.Write('"');
-            w.Write(this.Head.Name);
-            w.Write("\" -> \"");
             w.Write(this.Tail.Name);
+            w.Write("\" -> \"");
+            w.Write(this.Head.Name);
             w.Write("\" ");
             this.SerializeAttributes(w);
         }
@@ -89,5 +108,29 @@ namespace GraphVizNet
                 }
             }
         }
+
+        public DirectionEnum Direction
+        {
+            get
+            {
+                if (!SourceAttributes.ContainsKey("dir"))
+                {
+                    return DirectionEnum.Forward;
+                }
+                return (DirectionEnum)Enum.Parse(typeof(DirectionEnum), SourceAttributes["dir"]);
+            }
+            set
+            {
+                SourceAttributes["dir"] = value.ToString().ToLower();
+            }
+        }
+    }
+
+    public enum DirectionEnum
+    {
+        Forward,
+        Back,
+        Both,
+        None
     }
 }

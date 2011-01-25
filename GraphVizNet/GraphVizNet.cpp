@@ -5,6 +5,7 @@
 
 #include "GraphVizNet.h"
 #include <msclr\marshal.h>
+#include <msclr\lock.h>
 
 using namespace System::Collections;
 using namespace System::Runtime::InteropServices;
@@ -12,12 +13,14 @@ using namespace msclr::interop;
 
 namespace GraphVizNet {
 
+	static GraphEngine::GraphEngine(void)
+	{
+		lockObject = gcnew System::Object();
+		gvc = gvContext();
+	}
+
 	GraphEngine::GraphEngine(void)
 	{
-		if(gvc == 0)
-		{
-			gvc = gvContext();
-		}
 		//context = gcnew marshal_context();
 	}
 	
@@ -61,6 +64,10 @@ namespace GraphVizNet {
 
 	Agnode_t* GraphEngine::CreateNode(graph_t* g, VizNode^ inNode)
 	{
+		if(System::String::IsNullOrEmpty(inNode->Name))
+		{
+			throw gcnew System::Exception("Node name must be non empty");
+		}
 		char* name = (char*)Marshal::StringToHGlobalAnsi(inNode->Name).ToPointer();
 		Agnode_t* node = agnode(g, name);
 		Marshal::FreeHGlobal((IntPtr)name);
@@ -145,53 +152,96 @@ namespace GraphVizNet {
 		Agnode_t* tailNode = this->FindNode(g, inEdge->Tail);
 		Agnode_t* headNode = this->FindNode(g, inEdge->Head);
 
-		return agfindedge(g, tailNode, headNode);
+		char* edgeKey = (char*)Marshal::StringToHGlobalAnsi(inEdge->Id).ToPointer();
+		try {
+			Agedge_t* edge;
+			for(edge = agfstedge(g, headNode);
+				edge;
+				edge = agnxtedge(g, edge, headNode))
+			{
+				Agsym_t* keyAtr = agfindattr(edge, "id");
+				if(keyAtr)
+				{
+					char* key = agxget(edge, keyAtr->index);
+					if(strcmp(key, edgeKey) == 0)
+					{
+						return edge;
+					}
+				}
+			}
+			return 0;
+		}
+		finally {
+			Marshal::FreeHGlobal((IntPtr)edgeKey);
+		}
 	}
 
 	void GraphEngine::DotLayout(VizGraph^ inGraph)
 	{
+		// Многопоточность не наш конек
+		msclr::lock lk(lockObject);
+
 		graph_t *g = CreateGraph(inGraph);
 		try {
-			for(int i=0; i < inGraph->Nodes->Count;i++)
+			IEnumerator^ nodeE = inGraph->Nodes->GetEnumerator();
+			try {
+				while(nodeE->MoveNext())
+				{
+					VizNode^ inNode = (VizNode^)nodeE->Current;
+					this->CreateNode(g, inNode);
+				}
+			}
+			finally
 			{
-				this->CreateNode(g, inGraph->Nodes[i]);
+				delete nodeE;
 			}
 
-			for(int i=0; i < inGraph->Edges->Count;i++)
-			{
-				this->CreateEdge(g, inGraph->Edges[i]);
+			IEnumerator^ edgeE = inGraph->Edges->GetEnumerator();
+			try {
+				while(edgeE->MoveNext())
+				{
+					VizEdge^ inEdge = (VizEdge^)edgeE->Current;
+					this->CreateEdge(g, inEdge);
+				}
 			}
-
-			//char* args[3];
-			//args[0] = (char*)Marshal::StringToHGlobalAnsi("dot").ToPointer();
-			//args[1] = (char*)Marshal::StringToHGlobalAnsi("-Tdot").ToPointer();
-			//args[2] = (char*)Marshal::StringToHGlobalAnsi("-odebug.dot").ToPointer();
-
-			//gvParseArgs(gvc, sizeof(args)/sizeof(char*), args);
-
-			//int layoutRes = gvLayoutJobs(gvc, g);
-			//int renderRes = gvRenderJobs(gvc, g);
+			finally
+			{
+				delete edgeE;
+			}
 			
 			try {
 				int layoutRes = gvLayout(gvc, g, "dot");
-				//attach_attrs(g);
 
 				int renderRes = gvRender(gvc, g, "dot", 0);
 
 				this->FillGraph(g, inGraph);
 
-				for(int i=0; i < inGraph->Nodes->Count;i++)
+				IEnumerator^ nodeE = inGraph->Nodes->GetEnumerator();
+				try {
+					while(nodeE->MoveNext())
+					{
+						VizNode^ inNode = (VizNode^)nodeE->Current;
+						Agnode_t* node = this->FindNode(g, inNode);
+						this->FillNode(node, inNode);
+					}
+				}
+				finally
 				{
-					VizNode^ inNode = inGraph->Nodes[i];
-					Agnode_t* node = this->FindNode(g, inNode);
-					this->FillNode(node, inNode);
+					delete nodeE;
 				}
 
-				for(int i=0; i < inGraph->Edges->Count;i++)
+				IEnumerator^ edgeE = inGraph->Edges->GetEnumerator();
+				try {
+					while(edgeE->MoveNext())
+					{
+						VizEdge^ inEdge = (VizEdge^)edgeE->Current;
+						Agedge_t* edge = this->FindEdge(g, inEdge);
+						this->FillEdge(edge, inEdge);
+					}
+				}
+				finally
 				{
-					VizEdge^ inEdge = inGraph->Edges[i];
-					Agedge_t* edge = this->FindEdge(g, inEdge);
-					this->FillEdge(edge, inEdge);
+					delete edgeE;
 				}
 			}
 			finally {

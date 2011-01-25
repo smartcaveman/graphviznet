@@ -10,6 +10,17 @@ namespace GraphViewer
 {
     public class NodePresenter : Control
     {
+        static NodePresenter()
+        {
+            DefaultStyleKeyProperty.OverrideMetadata(typeof(NodePresenter),
+                new FrameworkPropertyMetadata(typeof(NodePresenter)));
+        }
+
+        public NodePresenter(VizNode node)
+        {
+            this.Node = node;
+        }
+
         public static readonly DependencyProperty NodeProperty = DependencyProperty.Register("Node", typeof(VizNode), typeof(NodePresenter), new UIPropertyMetadata());
         public VizNode Node
         {

@@ -1,13 +1,13 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 10.00
 # Visual Studio 2008
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GraphViewer", "GraphViewer.csproj", "{D3E4F847-8F68-4382-9E8C-AE2D819DF55E}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GraphViewer", "GraphViewer\GraphViewer.csproj", "{D3E4F847-8F68-4382-9E8C-AE2D819DF55E}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "GraphVizNet", "..\GraphVizNet\GraphVizNet.vcproj", "{BCF7250E-7673-4433-B7A8-A2463458214A}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "GraphVizNet", "GraphVizNet\GraphVizNet.vcproj", "{BCF7250E-7673-4433-B7A8-A2463458214A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GraphVizNetContracts", "..\GraphVizNetContracts\GraphVizNetContracts.csproj", "{12A038D4-6E93-4BED-A284-F4D35D79EFBE}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GraphVizNetContracts", "GraphVizNetContracts\GraphVizNetContracts.csproj", "{12A038D4-6E93-4BED-A284-F4D35D79EFBE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GraphViewerDemo", "..\GraphViewerDemo\GraphViewerDemo.csproj", "{228963E7-376F-441A-8A77-4258427DA71A}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GraphViewerDemo", "GraphViewerDemo\GraphViewerDemo.csproj", "{228963E7-376F-441A-8A77-4258427DA71A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
