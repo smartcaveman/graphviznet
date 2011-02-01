@@ -169,7 +169,7 @@ namespace GraphViewer
                 {
                     var child = objToNode[edge.Head];
                     var parent = objToNode[edge.Tail];
-                    var asso = new EdgePresenter(parent, child, edge);
+                    var asso = new EdgePresenter(edge);
                     asso.MakeGeometry();
                     Asso.Add(asso);
                     Visuals.Add(asso);

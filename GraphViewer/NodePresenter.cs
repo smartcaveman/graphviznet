@@ -26,6 +26,6 @@ namespace GraphViewer
         {
             get { return (VizNode)GetValue(NodeProperty); }
             set { SetValue(NodeProperty, value); }
-        }  
+        }
     }
 }
